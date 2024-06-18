@@ -12,4 +12,10 @@ public class MainController {
 	public String index() {
 		return "index";
 	}
+	
+	@GetMapping("/")
+	public String root() {
+		//redirect : 클라이언트가 요청하면 새로운 url로 전송
+		return "redirect:/question/list";
+	}
 }

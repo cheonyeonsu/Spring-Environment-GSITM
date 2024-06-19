@@ -2,6 +2,8 @@ package com.mysite.sbb;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,7 +25,19 @@ public class SecurityConfig {
               .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
       		  .headers(headers -> headers
               .addHeaderWriter(new XFrameOptionsHeaderWriter(
-                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
+                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+      		.headers(headers -> headers
+      	            .addHeaderWriter(new XFrameOptionsHeaderWriter(
+      	               XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+  	       .formLogin(formLogin -> formLogin
+	  	            .loginPage("/user/login")
+	  	            .defaultSuccessUrl("/")) //로그인에 성공하면 루트로 이동
+  	       .logout(logout -> logout
+  	            .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) //로그아웃 url
+  	            .logoutSuccessUrl("/") //로그아웃 성공하면 루트로 가라
+  	            .invalidateHttpSession(true)); //로그아웃하면, 로그인하며 생성된 사용자의 세션도 삭제해라.
+  	       
+
       return http.build();
    }
    
@@ -31,6 +45,12 @@ public class SecurityConfig {
    PasswordEncoder passwordEncoder() {
       return new BCryptPasswordEncoder();
    }
+   
+   @Bean //AuthenticationManager :UserSecurityService,passWoedEncoder를 내부적으로 사용해 인증과 권한 부여를 처리함
+   AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception{
+      return authenticationConfiguration.getAuthenticationManager();
+   }
+
 
    
 

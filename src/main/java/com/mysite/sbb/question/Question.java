@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.mysite.sbb.answer.Answer;
+import com.mysite.sbb.user.SiteUser;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -26,9 +27,15 @@ public class Question {
    private LocalDateTime createDate;
    
    
-   @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) 
-   //하나의 질문에 답변이 여러개 달릴 수 있기 때문에 @OneToMany,List. 부모가 삭제되면 자식도 삭제해라. 
+   //하나의 질문에 답변이 여러개 달릴 수 있기 때문에 @OneToMany. 질문 : 답변 
+   @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
    private List<Answer> answerList;
+   
+   //사용자와 질문간의 관계
+   @ManyToOne // 질문 : 사용자
+   private SiteUser author;
+   
+   private LocalDateTime modifyDate;
    
    
 }

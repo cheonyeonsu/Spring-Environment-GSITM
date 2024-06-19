@@ -3,6 +3,7 @@ package com.mysite.sbb.answer;
 import java.time.LocalDateTime;
 
 import com.mysite.sbb.question.Question;
+import com.mysite.sbb.user.SiteUser;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -23,4 +24,9 @@ public class Answer {
 	
 	@ManyToOne//Question을 참조해야 하기 위해. 질문이 있어야 답변이 필요하므로. 
 	private Question question; //content는 답변이기 때문에 필요없음. 
+	
+	@ManyToOne //외래키
+	private SiteUser author;
+	
+	private LocalDateTime modifyDate;
 }

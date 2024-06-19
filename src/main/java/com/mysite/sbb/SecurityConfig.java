@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration //시큐리티가 클래스를 인식할 수 있도록 함
 @EnableWebSecurity   // 스프링 시큐리티 필터가 스프링 필터체인에 등록이 된다. 웹시큐리티를 사용하겠다. 
+@EnableMethodSecurity(prePostEnabled =true)
 public class SecurityConfig {
 
    @Bean 

@@ -31,10 +31,10 @@ public class QuestionService {
       }
    }
    
-   //질문 등록하기
+   //질문 등록하기 : create 메서드의 각 단계가 무엇을 하는지. 
    public void create(String subject, String content) {
-      Question q = new Question();
-      q.setSubject(subject);
+      Question q = new Question(); //객체 생성 뒤 q로 접근하겠다. 
+      q.setSubject(subject); //q라는 객체의 subject 를 q.setSubject( {설정값} ) 으로 설정하겠음.
       q.setContent(content);
       q.setCreateDate(LocalDateTime.now());
       this.questionRepository.save(q);

@@ -26,6 +26,7 @@ public class QuestionController {
    @GetMapping("/list")
    public String list(Model model) {
       List<Question> questionList = this.questionService.getList();
+      //QuestionService로부터 가져온 questionList를 model에 questionList이름으로 추가.
       model.addAttribute("questionList", questionList);
       return "question_list";
    }

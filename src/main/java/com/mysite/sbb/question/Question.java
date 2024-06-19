@@ -13,9 +13,9 @@ import lombok.*;
 @Entity
 public class Question {
    @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   //GenerationType : 번호가 1씩 증가. 
-   private Integer id;
+   @GeneratedValue(strategy = GenerationType.IDENTITY) //기본 키 생성을 데이터베이스에 위임
+                             //GenerationType : 번호가 1씩 증가. 
+   private Integer id; //Integer: 정수형을 객체로 쓸 때. 
 
    @Column(length = 200) //열로 인식
    private String subject;
@@ -25,7 +25,9 @@ public class Question {
 
    private LocalDateTime createDate;
    
-   @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) //부모가 삭제되면 자식도 삭제해라. 
+   
+   @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) 
+   //하나의 질문에 답변이 여러개 달릴 수 있기 때문에 @OneToMany,List. 부모가 삭제되면 자식도 삭제해라. 
    private List<Answer> answerList;
    
    

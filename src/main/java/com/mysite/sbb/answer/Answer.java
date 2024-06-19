@@ -21,7 +21,6 @@ public class Answer {
 
 	private LocalDateTime createDate;
 	
-	//Question을 참조해야 하기 위해. 질문이 있어야 답변이 필요하므로. 
-	@ManyToOne
+	@ManyToOne//Question을 참조해야 하기 위해. 질문이 있어야 답변이 필요하므로. 
 	private Question question; //content는 답변이기 때문에 필요없음. 
 }

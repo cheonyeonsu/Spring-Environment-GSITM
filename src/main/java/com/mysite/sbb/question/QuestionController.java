@@ -69,7 +69,7 @@ public class QuestionController {
    }
    
    //수정하기
-   @PreAuthorize("isAuthenticated()")
+   @PreAuthorize("isAuthenticated()") //인증 확인
    @GetMapping("/modify/{id}")
    public String questionModify(QuestionForm questionForm, @PathVariable("id") Integer id, Principal principal) {
       Question question = this.questionService.getQuestion(id);
@@ -80,6 +80,21 @@ public class QuestionController {
       questionForm.setContent(question.getContent());
       return "question_form"; //modifyForm 안만듦
    }
-
    
-}
+   @PreAuthorize("isAuthenticated()") //인증 확인
+   @PostMapping("/modify/{id}")
+   public String questionModify(@Valid QuestionForm questionForm, BindingResult bindingResult, Principal principal,
+	         @PathVariable("id") Integer id) { //@PathVariable : 쿼리스트링 /modify/{id}값을 검증
+	      if (bindingResult.hasErrors()) {
+	         return "question_form";
+	      }
+	      Question question = this.questionService.getQuestion(id);
+	      if (!question.getAuthor().getUsername().equals(principal.getName())) {
+	         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+	      }
+	      this.questionService.modify(question, questionForm.getSubject(), 
+	            questionForm.getContent());
+	      return String.format("redirect:/question/detail/%s", id); //수정 내용 확인하기
+	   }
+	}
+

@@ -44,6 +44,9 @@ public class AnswerService {
 		this.answerRepository.save(answer);
 	}
 
-
+	//답변 삭제
+	  public void delete(Answer answer) {
+	      this.answerRepository.delete(answer);
+	   }
 
 }
